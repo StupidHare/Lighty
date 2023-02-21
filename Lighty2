@@ -1,0 +1,22 @@
+#include <iostream>
+#include<list>
+#include <iterator>
+using namespace std;
+
+int main() {
+    list<int> mylist;
+    list<int> listmerge = {1, 5, 6, 9, 10};
+    auto it = mylist.begin();
+    mylist.insert(it, 5);
+    mylist.insert(it, 3);
+    copy(listmerge.begin(), listmerge.end(), ostream_iterator<int>(cout," "));
+    cout << endl;
+    for(it = mylist.begin(); it != mylist.end(); it++) {
+        cout << *it << " ";
+    }
+    cout << endl;
+    mylist.merge(listmerge);
+    for (int i : mylist) {
+        cout << i << " ";
+    }
+}
