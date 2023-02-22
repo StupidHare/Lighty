@@ -1,0 +1,56 @@
+#include <iostream>
+#include <map>
+using namespace std;
+
+int main() {
+    int n;
+    cin >> n;
+    map<int, int> peopleInHouse; // ключ - номер дома, значение - колво людей в доме
+    for(int i = 0; i < n; i++) {
+        int people;
+        int number;
+        cin >> number >> people;
+        peopleInHouse[number] = people; 
+    }
+    cout << "Дома добавлены!" << endl;
+    cout << "0 - есть ли дом, 1 - удалить дом, 2 - добавить дом" << endl;
+    while (true) {
+        cout << "Выберите операцию: " << endl;
+        int operation;
+        cin >> operation;
+        int numberHouse;
+        int countPeople;
+        switch(operation){
+            case 0:
+                cout << "Какой дом ищем? ";
+                cin >> numberHouse;
+                if (peopleInHouse.count(numberHouse) == 1) {
+                    cout << "Колво людей в этом доме: " << peopleInHouse[numberHouse] << endl;
+                }
+                else {
+                    cout << "Такого дома нет" << endl;
+                }
+                break;
+            
+            case 1:
+                cout << "Номер удаляемого дома: ";
+                cin >> numberHouse;
+                if (peopleInHouse.find(numberHouse) != peopleInHouse.end()) {
+                    peopleInHouse.erase(numberHouse);
+                    cout << "Дом удален" << endl;
+                }
+                else {
+                    cout << "Такого дома нет" << endl;
+                }
+                break;
+            case 2:
+                cout << "Введите номер дома и колво людей в нем: "; 
+                cin >> numberHouse >> countPeople;
+                peopleInHouse[numberHouse] = countPeople;
+                cout << "Дом добавлен" << endl;
+                break;
+            default:
+                cout << "error";
+        }
+    }   
+}
