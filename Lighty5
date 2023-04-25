@@ -1,0 +1,76 @@
+#include <SFML/Graphics.hpp>
+#include <iostream>
+
+#define EXIT_FAILURE_LOAD_TEXTURE 2
+
+int main()
+{
+    float speed = 200;
+
+    sf::Clock deltaClock;
+    sf::Time dt;
+
+    sf::ContextSettings settings;
+    settings.antialiasingLevel = 8;
+
+    sf::RenderWindow window(sf::VideoMode(1920, 1080), "SFML Window", sf::Style::Fullscreen, settings);
+
+    sf::CircleShape shape(50, 6);
+
+    shape.setPosition(sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2));
+       
+    shape.setOrigin(sf::Vector2f(shape.getRadius(), shape.getRadius()));
+
+    sf::Texture texture;
+    texture.setSmooth(true);
+
+    if (!texture.loadFromFile("texture.png")) {
+        exit(EXIT_FAILURE_LOAD_TEXTURE);
+    }
+
+    shape.setTexture(&texture);
+    shape.setTextureRect(sf::IntRect(10, 10, 100, 100));
+
+    //sf::Clock clock;
+    window.setFramerateLimit(110);
+    while (window.isOpen())
+    {
+
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            switch (event.type)
+            {
+            case sf::Event::Closed:
+                window.close();
+                break;
+            default:
+                break;
+            }
+        }
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+        {
+            shape.move(sf::Vector2f(-speed, 0) * dt.asSeconds());
+        }
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+        {
+            shape.move(sf::Vector2f(speed, 0) * dt.asSeconds());
+        }
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+        {
+            shape.move(sf::Vector2f(0, -speed) * dt.asSeconds());
+        }
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+        {
+            shape.move(sf::Vector2f(0, speed) * dt.asSeconds());
+        }
+
+        window.clear();
+        window.draw(shape);
+        window.display();
+        dt = deltaClock.restart();
+    }
+
+    return 0;
+}
